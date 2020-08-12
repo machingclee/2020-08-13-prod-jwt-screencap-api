@@ -1,2 +1,2 @@
-# 2020-08-13-prod-jwt-screencap-api
-Active development setup for my screencap service.
+# 2020-08-11-springboot-security-with-JWT
+A working template following a great course by https://www.youtube.com/watch?v=X80nJ5T7YpE.
