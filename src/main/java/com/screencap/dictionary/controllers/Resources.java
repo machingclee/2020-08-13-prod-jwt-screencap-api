@@ -11,6 +11,6 @@ public class Resources {
     @GetMapping
     public String getResources() {
         System.out.println("hello");
-        return "Hello World 2";
+        return "Hello World 3";
     }
 }
