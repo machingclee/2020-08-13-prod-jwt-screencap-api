@@ -35,14 +35,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
 
         if (!Strings.isEmpty(authHeader) && authHeader.startsWith("Bearer ")) {
+
             token = authHeader.replace("Bearer ", "");
             username = jwtUtil.extractUsername(token);
+
         }
 
         if (!Strings.isEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (jwtUtil.validateToken(token, userDetails)) {
+
                 UsernamePasswordAuthenticationToken springFrameworkToken =
                     new UsernamePasswordAuthenticationToken(
                         userDetails,
