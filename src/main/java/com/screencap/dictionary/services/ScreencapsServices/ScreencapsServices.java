@@ -78,8 +78,6 @@ public class ScreencapsServices {
                     }
                 }
                 session.save(page);
-
-
             }
 
             pages = session
@@ -91,6 +89,7 @@ public class ScreencapsServices {
                 // id from the source is id in the sqlite database
                 vocab.setSqliteVocabId(vocab.getId());
                 vocab.setSqlitePageId(vocab.getPageId());
+
 
                 for (Page page : pages) {
                     if (page.getSqlitePageId().equals(vocab.getSqlitePageId())) {

@@ -61,6 +61,10 @@ public class Page {
     private Integer sqlitePageId;
 
 
+    @Column(name = "image_file_name")
+    private String croppedImageFilePath;
+
+
     @CreationTimestamp
     private LocalDateTime createDateTime;
 
@@ -73,8 +77,11 @@ public class Page {
 
 
 
-    public Page(Integer noteId, String name, String dateTime, Note note, List<Vocab> vocabs, Integer sqliteNoteId, Integer sqlitePageId) {
-
+    public Page(
+        Integer id, Integer noteId, String name, String dateTime, Note note, List<Vocab> vocabs, Integer sqliteNoteId, Integer sqlitePageId,
+        String croppedImageFilePath, LocalDateTime createDateTime, LocalDateTime updateDateTime
+    ) {
+        this.id = id;
         this.noteId = noteId;
         this.name = name;
         this.dateTime = dateTime;
@@ -82,9 +89,10 @@ public class Page {
         this.vocabs = vocabs;
         this.sqliteNoteId = sqliteNoteId;
         this.sqlitePageId = sqlitePageId;
+        this.croppedImageFilePath = croppedImageFilePath;
+        this.createDateTime = createDateTime;
+        this.updateDateTime = updateDateTime;
     }
-
-
 
     public Integer getSqliteNoteId() {
         return this.sqliteNoteId;
@@ -182,6 +190,14 @@ public class Page {
         this.updateDateTime = updateDateTime;
     }
 
+
+    public String getCroppedImageFilePath() {
+        return this.croppedImageFilePath;
+    }
+
+    public void setCroppedImageFilePath(String croppedImageFilePath) {
+        this.croppedImageFilePath = croppedImageFilePath;
+    }
 
 
     @Override

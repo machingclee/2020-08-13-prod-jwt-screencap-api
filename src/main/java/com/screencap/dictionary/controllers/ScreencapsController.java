@@ -59,6 +59,7 @@ public class ScreencapsController {
             screencapsService.saveVocabs(username, deserializedBody);
 
             return ResponseEntity.ok().build();
+
         } catch (Exception e) {
             return new ResponseEntity<ErrorMessage>(new ErrorMessage(e.toString()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
