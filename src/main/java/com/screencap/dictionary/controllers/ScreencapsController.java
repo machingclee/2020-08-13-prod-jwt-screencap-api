@@ -41,11 +41,10 @@ public class ScreencapsController {
 
 
     @PostMapping
-    public void uploadVocabs(@RequestHeader("authorization") String authorizationHeader, @RequestBody String requestBody) throws Exception {
+    public ResponseEntity<?> uploadVocabs(@RequestHeader("authorization") String authorizationHeader, @RequestBody String requestBody)
+        throws Exception {
         String token = authorizationHeader.replace("Bearer ", "");
         String username = jwtUtil.extractUsername(token);
-
-
 
         UploadVocabsRequestBody deserializedBody = null;
 
@@ -57,14 +56,12 @@ public class ScreencapsController {
             );
 
             screencapsService.deleteAll(username);
-
             screencapsService.saveVocabs(username, deserializedBody);
 
-
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
-            throw new Exception();
+            return new ResponseEntity<ErrorMessage>(new ErrorMessage(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @RequestMapping("/notes")
