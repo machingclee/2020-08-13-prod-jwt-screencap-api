@@ -1,7 +1,10 @@
 package com.screencap.dictionary.database;
 
 import java.util.Properties;
-import com.screencap.dictionary.models.User;
+import com.screencap.dictionary.models.entities.Note;
+import com.screencap.dictionary.models.entities.Page;
+import com.screencap.dictionary.models.entities.User;
+import com.screencap.dictionary.models.entities.Vocab;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -9,7 +12,6 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 @org.springframework.context.annotation.Configuration
 public class HibernateConfig {
@@ -41,6 +43,11 @@ public class HibernateConfig {
 
                 configuration.setProperties(props);
                 configuration.addAnnotatedClass(User.class);
+                configuration.addAnnotatedClass(Note.class);
+                configuration.addAnnotatedClass(Page.class);
+                configuration.addAnnotatedClass(Vocab.class);
+
+
 
                 ServiceRegistry serviceRegistry =
                     new StandardServiceRegistryBuilder()

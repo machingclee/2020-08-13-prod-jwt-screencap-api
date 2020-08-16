@@ -1,4 +1,4 @@
-package com.screencap.dictionary.security;
+package com.screencap.dictionary.utils;
 
 import java.time.LocalDate;
 import java.util.Date;

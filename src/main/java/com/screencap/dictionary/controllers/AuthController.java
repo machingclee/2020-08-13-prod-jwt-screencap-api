@@ -3,19 +3,17 @@ package com.screencap.dictionary.controllers;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import com.screencap.dictionary.daos.ApplicationUserDao;
 import com.screencap.dictionary.models.AuthRequest;
 import com.screencap.dictionary.models.AuthResponse;
 import com.screencap.dictionary.models.ErrorMessage;
 import com.screencap.dictionary.models.RegistrationBody;
-import com.screencap.dictionary.models.User;
-import com.screencap.dictionary.security.ApplicationUserDao;
-import com.screencap.dictionary.security.JwtUtil;
-import org.hibernate.SessionFactory;
+import com.screencap.dictionary.models.entities.User;
+import com.screencap.dictionary.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +21,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import javassist.NotFoundException;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -44,9 +40,6 @@ public class AuthController {
 
     @Autowired
     private JwtUtil jwtUtil;
-
-    @Autowired
-    private SessionFactory sessionFactory;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -81,9 +74,8 @@ public class AuthController {
 
         User theUser = applicationUserDao.getUserByUserName(username);
 
-        // if user exists, close registration the process and return error:
+        // if user exists, close the registration process and return error:
         if (theUser != null)
-
             return new ResponseEntity<ErrorMessage>(
                 new ErrorMessage("User already exists"),
                 HttpStatus.BAD_REQUEST

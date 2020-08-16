@@ -1,9 +1,10 @@
-package com.screencap.dictionary.security;
+package com.screencap.dictionary.daos;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.TypedQuery;
-import com.screencap.dictionary.models.User;
+import com.screencap.dictionary.interfaces.IApplicationUserDao;
+import com.screencap.dictionary.models.entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -18,8 +19,9 @@ public class ApplicationUserDao implements IApplicationUserDao {
 
     @Override
     public List<User> getUsers() {
+
         List<User> users = new ArrayList<User>();
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
         try {
@@ -38,22 +40,13 @@ public class ApplicationUserDao implements IApplicationUserDao {
     }
 
 
+    public void updateUser(User user) {
 
-    @Override
-    public User getUserByUserName(String username) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
         try {
-
-            TypedQuery<User> query = session.createQuery("from User where username=:username", User.class);
-            query.setParameter("username", username);
-            List<User> users = query.getResultList();
-
-            if (users.size() > 0)
-                return users.get(0);
-            else
-                return null;
+            session.update(user);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,6 +54,32 @@ public class ApplicationUserDao implements IApplicationUserDao {
             tx.commit();
             session.close();
         }
+    }
+
+
+
+    @Override
+    public User getUserByUserName(String username) {
+
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        List<User> users = new ArrayList<>();
+
+        try {
+
+            TypedQuery<User> query = session.createQuery("from User where username=:username", User.class);
+            query.setParameter("username", username);
+            users = query.getResultList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            tx.commit();
+            session.close();
+        }
+
+        if (users.size() > 0)
+            return users.get(0);
 
         return null;
     }
@@ -70,7 +89,7 @@ public class ApplicationUserDao implements IApplicationUserDao {
     @Override
     public void saveUser(User user) {
 
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
         try {
