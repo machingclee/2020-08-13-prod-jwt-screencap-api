@@ -60,7 +60,7 @@ public class ScreencapsController {
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return new ResponseEntity<ErrorMessage>(new ErrorMessage(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<ErrorMessage>(new ErrorMessage(e.toString()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
